@@ -47,7 +47,7 @@ class FollowSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        exclude = ['id',]
+        exclude = ['id']
         model = Follow
         validators = [
             UniqueTogetherValidator(
