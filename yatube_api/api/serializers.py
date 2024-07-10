@@ -17,16 +17,22 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
         model = Post
 
+    def create(self, validated_data):
+        request = self.context.get('request')
+        validated_data['author'] = request.user
+        return super().create(validated_data)
+
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
-        read_only=True, slug_field='username'
+        read_only=True,
+        slug_field='username'
     )
 
     class Meta:
         fields = '__all__'
         model = Comment
-        read_only_fields = ['author', 'post']
+        read_only_fields = ['post']
 
 
 class FollowSerializer(serializers.ModelSerializer):
@@ -40,23 +46,26 @@ class FollowSerializer(serializers.ModelSerializer):
         queryset=User.objects.all()
     )
 
-    validators = [UniqueTogetherValidator(
-        queryset=Follow.objects.all(),
-        fields=['user', 'following'])]
+    class Meta:
+        exclude = ['id',]
+        model = Follow
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Follow.objects.all(),
+                fields=('user', 'following'),
+                message='Вы уже подписывались на этого автора'
+            )
+        ]
 
-    def validate(self, data):
+    def validate_follow(self, data):
         if self.context['request'].user != data.get('following'):
             return data
         raise serializers.ValidationError(
             'Нельзя подписаться на себя'
         )
 
-    class Meta:
-        fields = ('__all__')
-        model = Follow
-
 
 class GroupSerializer(serializers.ModelSerializer):
     class Meta:
         model = Group
-        fields = ('__all__')
+        fields = '__all__'

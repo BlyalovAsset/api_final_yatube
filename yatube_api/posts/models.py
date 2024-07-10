@@ -14,6 +14,11 @@ class Group(models.Model):
     slug = models.SlugField(unique=True)
     description = models.TextField()
 
+    class Meta:
+        verbose_name = 'Название сообщества'
+        verbose_name_plural = 'Сообщества'
+        ordering = ('title',)
+
     def __str__(self):
         return self.title[:LENGTH_TEXT]
 
@@ -56,6 +61,9 @@ class Comment(models.Model):
         auto_now_add=True,
         db_index=True)
 
+    def __str__(self) -> str:
+        return f'{self.author} и {self.post} относится к {self.text }'
+
 
 class Follow(models.Model):
     user = models.ForeignKey(
@@ -70,7 +78,13 @@ class Follow(models.Model):
     )
 
     class Meta:
+        verbose_name = 'follower'
+        verbose_name_plural = 'following'
+        ordering = ('following',)
         constraints = [
             models.UniqueConstraint(fields=['user', 'following'],
                                     name='user_following')
         ]
+
+    def __str__(self):
+        return f'{self.user} подписан на: {self.following}'
