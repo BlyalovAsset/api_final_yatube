@@ -6,7 +6,6 @@ from rest_framework.permissions import (
     AllowAny,
     IsAuthenticatedOrReadOnly,
 )
-from rest_framework.exceptions import ValidationError
 
 from api.permissions import IsAuthorOrReadOnly
 from api.serializers import (
@@ -35,6 +34,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [AllowAny]
+    
     class Meta:
         ordering = ('post',)
 
