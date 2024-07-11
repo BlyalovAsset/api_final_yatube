@@ -34,7 +34,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [AllowAny]
-    
+
     class Meta:
         ordering = ('post',)
 
