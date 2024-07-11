@@ -16,7 +16,7 @@ API_Final - это API для платформы yatube, которая позв
 
 1. Клонировать репозиторий и перейти в него в командной строке:
     ```sh
-    git clone git@github.com:LazarevaKate/api_final_yatube.git
+    git clone git@github.com:BlyalovAsset/api_final_yatube.git
     cd api_final_yatube
     ```
 
@@ -47,20 +47,69 @@ API_Final - это API для платформы yatube, которая позв
    ```sh
     http://127.0.0.1:8000/api/v1/posts/
     ```
-2. Получить определенный пост (GET):
+   Пример ответа:
+   ```sh
+   {
+    "count": 11,
+    "next": "/api/v1/posts/?limit=1&offset=2",
+    "previous": "/api/v1/posts/?limit=1",
+    "results": [
+        {
+            "id": 2,
+            "author": "regular_user",
+            "text": "Пост зарегистрированного пользователя.",
+            "pub_date": "2023-11-30T10:03:46.978297Z",
+            "image": null,
+            "group": null
+        }
+    ]
+}
+   ```
+3. Получить определенный пост (GET):
     ```sh
     [http://127.0.0.1:8000/api/v1/posts/](http://127.0.0.1:8000/api/v1/posts/1/)
     ```
-3. Получить коментарии определенного поста (GET):
+    Пример ответа:
+    ```sh
+    {
+            "id": 2,
+            "author": "regular_user",
+            "text": "Пост зарегистрированного пользователя.",
+            "pub_date": "2023-11-30T10:03:46.978297Z",
+            "image": null,
+            "group": null
+        }
+    ```
+4. Получить коментарии определенного поста (GET):
     ```sh
     http://127.0.0.1:8000/api/v1/posts/1/comments/
     ```
-4. Получить список всех групп (GET):
+    Пример ответа:
     ```sh
-    http://127.0.0.1:8000/api/v1/groups/
+    {
+            "id": 2,
+            "author": "regular_user",
+            "text": "Пост зарегистрированного пользователя.",
+            "pub_date": "2023-11-30T10:03:46.978297Z",
+            "image": null,
+            "group": null
+   }
     ```
-5. Создать новый пост (POST):
-   (Требуется аутентификация)
+5. Оформление подписки:
    ```sh
-    http://127.0.0.1:8000/api/v1/posts/
+    POST /api/v1/follow/ HTTP/1.1
+Authorization: Bearer [token]
+content-type: application/json
+
+{
+    "following": "root"
+}
     ```
+Пример ответа:
+```sh
+{
+  "user": "testuser",
+  "following": "root"
+}
+```
+author: Asset Blyaov
