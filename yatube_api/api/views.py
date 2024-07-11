@@ -46,9 +46,6 @@ class FollowViewSet(mixins.CreateModelMixin,
         return self.request.user.follower.all()
 
     def perform_create(self, serializer):
-        following_user = serializer.validated_data.get('following')
-        if following_user == self.request.user:
-            raise ValidationError("You cannot follow yourself.")
         serializer.save(user=self.request.user)
 
 
