@@ -5,6 +5,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import (
     AllowAny,
     IsAuthenticatedOrReadOnly,
+    IsAuthenticated,
 )
 
 from api.permissions import IsAuthorOrReadOnly
@@ -48,7 +49,7 @@ class FollowViewSet(mixins.CreateModelMixin,
     search_fields = ('user__username', 'following__username')
     permission_classes = (
         IsAuthenticated,
-        IsOwnerOrReadOnly,
+        IsAuthorOrReadOnly,
     )
 
     def get_queryset(self):
